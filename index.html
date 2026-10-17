@@ -57,7 +57,7 @@ html.theming, html.theming *{transition:background-color .25s ease, border-color
 #map{position:absolute; inset:0; background:var(--map-bg)}
 
 /* top-left: brand + search */
-.tl{z-index:1350; top:12px; left:12px; width:var(--pw); display:flex; align-items:center; gap:4px; padding:5px; border-radius:14px}
+.tl{z-index:1350; box-shadow:none; top:12px; left:12px; width:var(--pw); display:flex; align-items:center; gap:4px; padding:5px; border-radius:14px}
 .brand{display:flex; align-items:center; gap:8px; padding:0 8px 0 7px; font-size:12.5px; font-weight:600; white-space:nowrap; color:var(--ink); text-decoration:none}
 .brand i{width:14px; height:14px; border-radius:50%; background:conic-gradient(from 210deg, var(--c1), var(--accent), var(--c4), var(--c1)); box-shadow:0 0 12px var(--accent-soft)}
 .search{position:relative; flex:1; min-width:0}
@@ -1182,7 +1182,7 @@ function renderNearby(z) {
         const scores = x.kind === 'intl' ? `<span class="nrec">${intlBadges(b).map(t => `<i>${esc(t)}</i>`).join('')}${ev ? `<i class="ok" title="${esc(ev.txt)}">${esc(ev.tag)} ✓</i>` : ''}</span>` : `<span class="nr">${[b.b9 && b.b9.rank != null ? `9º ${rankTxt(b.b9).replace(', a year earlier', ' ← ')}` : null, b.sec && b.sec.rank != null ? `Sec ${rankTxt(b.sec).replace(', a year earlier', ' ← ')}` : null].filter(Boolean).join(' · ') || 'too few exams to rank'}</span>`;
         const sc = x.kind === 'intl' ? intlChip(b) : scoreChip(score10(b));
         const time = nearMode === 'transit' ? `<a class="ntime tr" href="${transitUrl(o, b)}" target="_blank" rel="noopener" title="Public transport directions in Google Maps">Route ↗</a><span class="nkm num">${x.km.toFixed(1)} km</span>`
-          : `<span class="ntime num">${x.routed ? '' : '≈'}${Math.max(1, Math.round(x.min))}<small>${{bike: 'min by bike', foot: 'min on foot', car: 'min by car'}[nearMode]}</small></span><span class="nkm num">${x.rkm.toFixed(1)} km</span>`;
+          : `<span class="ntime num">${x.routed ? '' : '≈'}${Math.max(1, Math.round(x.min))}<small>min</small></span><span class="nkm num">${x.rkm.toFixed(1)} km</span>`;
         return `<li data-i="${i}" class="k-${x.kind}${isOwn ? ' own' : ''}"><span class="nd"></span><span class="nm"><b>${name}</b><span class="nbad">${isOwn ? '<em class="own" title="' + ownTip + '">Assigned school</em>' : ''}<em>${x.kind === 'pub' ? 'Public' : x.kind === 'priv' ? 'Private' : 'International'}</em></span><span class="nsc">${scores}</span></span>${sc}<span class="nt">${time}</span></li>`;
       })()).join('')}</ol>
       <p class="nnote">${nearMode === 'transit' ? 'No free route planner covers Porto’s buses and metro, so this lists by distance; “Route ↗” opens public-transport directions.' : `${rows.some(x => !x.routed) ? '≈ estimated from straight-line distance while the route loads. ' : ''}${m.label === 'Car' ? 'Car times without traffic. ' : ''}Routes: OpenStreetMap via FOSSGIS.`} Score: 1–10 from Público 2025 national exam ranks (10 = top of the country). International schools sit other exams: the globe marks them, with what they’re recognised by and any published results (✓).</p>`;
